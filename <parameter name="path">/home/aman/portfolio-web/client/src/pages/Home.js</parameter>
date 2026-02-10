@@ -1,0 +1,387 @@
+<parameter name="content">import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Github,
+  Linkedin,
+  Mail,
+  ExternalLink,
+  Code,
+  Database,
+  Layout,
+  Smartphone,
+} from "lucide-react";
+import { useApi } from "../context/ApiContext";
+import ProjectCard from "../components/ProjectCard";
+import SkillCard from "../components/SkillCard";
+import Loading from "../components/Loading";
+import "./Home.css";
+
+const Home = () => {
+  const [config, setConfig] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { getConfig, getProjects } = useApi();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [configData, projectsData] = await Promise.all([
+          getConfig(),
+          getProjects({ featured: "true" }),
+        ]);
+        setConfig(configData);
+        setProjects(projectsData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [getConfig]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  const siteConfig = config || {
+    name: "Aman",
+    title: "Student Software Developer & Graphic Designer",
+    description:
+      "Building full-stack web applications using the MERN stack with a focus on clean structure, usability, and reliable backend systems.",
+    socialLinks: {
+      github: "https://github.com/amanthatdoescares",
+      linkedin: "https://www.linkedin.com/in/aman-maurya-895963324/",
+    },
+    email: "amanthatdoescares@gmail.com",
+  };
+
+  const skills = siteConfig.skills || {};
+  const featuredProjects =
+    projects.length > 0
+      ? projects
+      : (siteConfig.projects || []).filter((p) => p.isFeatured);
+
+  const skillCategories = [
+    { title: "Languages", icon: Code, skills: skills.languages || [] },
+    { title: "Frontend", icon: Layout, skills: skills.frontend || [] },
+    { title: "Backend", icon: Database, skills: skills.backend || [] },
+    { title: "Mobile", icon: Smartphone, skills: skills.mobile || [] },
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+  };
+
+  return (
+    <div className="home">
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-background">
+          <div className="hero-grid"></div>
+          <div className="hero-glow"></div>
+        <div className="hero-container">
+          <motion.div
+            className="hero-content"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div
+              className="hero-badge"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <span className="badge-dot"></span>
+              Available for projects
+            </motion.div>
+
+            <h1 className="hero-title">
+              Hi, I'm <span className="highlight">{siteConfig.name}</span>
+            </h1>
+
+            <h2 className="hero-subtitle">{siteConfig.title}</h2>
+
+            <p className="hero-description">{siteConfig.description}</p>
+
+            <motion.div
+              className="hero-cta"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Link to="/projects" className="btn btn-primary">
+                View Projects
+                <ArrowRight size={18} />
+              </Link>
+              <Link to="/contact" className="btn btn-secondary">
+                Get in Touch
+              </Link>
+            </motion.div>
+
+            <motion.div
+              className="hero-social"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <a
+                href={siteConfig.socialLinks?.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="social-btn"
+              >
+                <Github size={22} />
+              </a>
+              <a
+                href={siteConfig.socialLinks?.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="social-btn"
+              >
+                <Linkedin size={22} />
+              </a>
+              <a
+                href={`mailto:${siteConfig.email}`}
+                aria-label="Email"
+                className="social-btn"
+              >
+                <Mail size={22} />
+              </a>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            className="hero-visual"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div className="hero-code">
+              <div className="code-header">
+                <div className="code-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="code-title">portfolio.js</span>
+              </div>
+              <div className="code-content">
+                <pre>
+                  <code>
+                    {`const developer = {
+  name: "Aman",
+  skills: ["MERN", "React", "Node"],
+  passion: "Building apps",
+  
+  build() {
+    return {
+      quality: "Clean",
+      focus: "User experience"
+    };
+  }
+};`}
+                  </code>
+                </pre>
+              </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          className="scroll-indicator"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1 }}
+        >
+          <span>Scroll to explore</span>
+          <div className="scroll-arrow"></div>
+        </motion.div>
+      </section>
+
+      {/* Skills Section */}
+      <section className="skills-section">
+        <div className="container">
+          <motion.div
+            className="section-header"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="section-title">Skills & Technologies</h2>
+            <p className="section-subtitle">
+              A comprehensive toolkit for building modern web applications
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="skills-grid"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {skillCategories.map((category, index) => (
+              <motion.div
+                key={category.title}
+                variants={itemVariants}
+                custom={index}
+              >
+                <SkillCard
+                  title={category.title}
+                  icon={category.icon}
+                  skills={category.skills}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Featured Projects Section */}
+      <section className="projects-section">
+        <div className="container">
+          <motion.div
+            className="section-header"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="section-title">Featured Projects</h2>
+            <p className="section-subtitle">
+              A selection of my recent work and personal projects
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="projects-grid"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {featuredProjects.slice(0, 3).map((project, index) => (
+              <motion.div
+                key={project.id}
+                variants={itemVariants}
+                custom={index}
+              >
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            className="section-cta"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Link to="/projects" className="btn btn-primary">
+              View All Projects
+              <ExternalLink size={18} />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="about-section">
+        <div className="container">
+          <motion.div
+            className="about-content"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="about-text">
+              <h2 className="section-title">About Me</h2>
+              <p>
+                I'm a passionate student developer currently pursuing an
+                Integrated Post Graduate Degree (B.Tech in Information
+                Technology + MBA). My journey in software development started
+                with a curiosity about how things work, and it has evolved into
+                a deep passion for building meaningful applications.
+              </p>
+              <p>
+                I specialize in the MERN stack (MongoDB, Express, React,
+                Node.js) and focus on creating clean, performant, and
+                user-friendly applications. Beyond coding, I'm also a graphic
+                designer with an eye for UI/UX design.
+              </p>
+              <p>
+                When I'm not coding, you'll find me exploring new technologies,
+                contributing to open source, or working on creative design
+                projects.
+              </p>
+            </div>
+
+            <div className="about-stats">
+              <div className="stat-card">
+                <span className="stat-number">4+</span>
+                <span className="stat-label">Projects Completed</span>
+              </div>
+              <div className="stat-card">
+                <span className="stat-number">5+</span>
+                <span className="stat-label">Technologies Mastered</span>
+              </div>
+              <div className="stat-card">
+                <span className="stat-number">1</span>
+                <span className="stat-label">Year of Learning</span>
+              </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta-section">
+        <div className="container">
+          <motion.div
+            className="cta-content"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2>Let's Work Together</h2>
+            <p>
+              Have a project in mind or just want to chat about tech? I'd love
+              to hear from you!
+            </p>
+            <Link to="/contact" className="btn btn-primary">
+              Get in Touch
+              <ArrowRight size={18} />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Home;
+</parameter>

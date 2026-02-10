@@ -1,0 +1,68 @@
+/* Loading Styles */
+.loading-container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-logo {
+  font-size: 3rem;
+  font-weight: 800;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -2px;
+  margin-bottom: 1.5rem;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background: var(--bg-card);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+}
+
+.loading-progress {
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 2px;
+}
+
+.loading-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loading-logo {
+    font-size: 2.25rem;
+  }
+
+  .loading-bar {
+    width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-logo {
+    font-size: 1.875rem;
+  }
+
+  .loading-bar {
+    width: 120px;
+  }
+
+  .loading-text {
+    font-size: 0.8rem;
+  }
+}

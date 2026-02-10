@@ -1,0 +1,15 @@
+<parameter name="content"># Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# MongoDB Configuration
+MONGODB_URI=mongodb://localhost:27017/aman-portfolio
+
+# Email Configuration (for contact form)
+EMAIL_SERVICE=gmail
+EMAIL_USER=amanthatdoescares@gmail.com
+EMAIL_PASSWORD=your-app-password
+
+# Frontend URL (for CORS)
+FRONTEND_URL=http://localhost:3000
+</parameter>

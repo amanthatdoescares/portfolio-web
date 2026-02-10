@@ -1,0 +1,128 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Github, Linkedin, Mail, MapPin, PenTool } from "lucide-react";
+import "./Footer.css";
+
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  const socialLinks = [
+    {
+      icon: Github,
+      href: "https://github.com/amanthatdoescares",
+      label: "GitHub",
+    },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/aman-maurya-895963324/",
+      label: "LinkedIn",
+    },
+    {
+      icon: PenTool,
+      href: "https://www.behance.net/",
+      label: "Behance",
+    },
+    {
+      icon: Mail,
+      href: "mailto:amanthatdoescares@gmail.com",
+      label: "Email",
+    },
+  ];
+
+  const footerLinks = [
+    { path: "/", label: "Home" },
+    { path: "/projects", label: "Projects" },
+    { path: "/graphic-design", label: "Graphic Design" },
+    { path: "/contact", label: "Contact" },
+  ];
+
+  return (
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="footer-main">
+          <motion.div
+            className="footer-brand"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link to="/" className="footer-logo">
+              <span>AM</span>
+              <span className="logo-dot"></span>
+            </Link>
+            <p className="footer-tagline">
+              Building full-stack web applications with focus on clean
+              structure, usability, and reliable backend systems.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="footer-links"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <h4>Quick Links</h4>
+            <ul>
+              {footerLinks.map((link) => (
+                <li key={link.path}>
+                  <Link to={link.path}>{link.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div
+            className="footer-contact"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <h4>Get in Touch</h4>
+            <div className="contact-info">
+              <div className="contact-item">
+                <Mail size={18} />
+                <span>amanthatdoescares@gmail.com</span>
+              </div>
+              <div className="contact-item">
+                <MapPin size={18} />
+                <span>India</span>
+              </div>
+              <div className="social-links">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="social-link"
+                  >
+                    <social.icon size={20} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          className="footer-bottom"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <p>© {currentYear} Aman. All rights reserved.</p>
+          <p className="footer-credit">Built with MERN Stack</p>
+        </motion.div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
