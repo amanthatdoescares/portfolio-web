@@ -1,0 +1,19 @@
+# GitHub Pages Configuration
+title: Aman's Portfolio
+description: Student Software Developer & Graphic Designer
+url: https://amanthatdoescares.github.io
+baseurl: /portfolio-web
+exclude:
+  - node_modules/
+  - client/
+  - config/
+  - models/
+  - routes/
+  - server.js
+  - package.json
+  - .env.example
+  - .gitignore
+  - setup-ssh.sh
+theme: jekyll-theme-primer
+plugins:
+  - jekyll-seo-tag
